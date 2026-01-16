@@ -10,18 +10,22 @@ import {
   Users, 
   Monitor, 
   Briefcase,
-  Lightbulb
+  Lightbulb,
+  Heart
 } from 'lucide-react';
 
-// --- MENTION LÉGALE PROTÉGÉE (Ne pas modifier) ---
-const PROTECTED_COPYRIGHT = "Dev Pr. :M.Moumen";
+// --- MENTIONS LÉGALES (Protégées) ---
+const PDF_COPYRIGHT = "DEV : Pr.M Moumen";
+const WEBSITE_COPYRIGHT = "Idea & Developed with ❤️ by Pr. M. MOUMEN";
 
-// --- Styles CSS intégrés pour fonctionner sans Tailwind ---
+// --- Styles CSS intégrés ---
 const styles = `
   body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; color: #1f2937; }
   * { box-sizing: border-box; }
   
   /* Layout global */
+  .app-container { display: flex; flex-direction: column; min-height: 100vh; }
+  
   .app-header { background-color: #4338ca; color: white; padding: 1rem; position: sticky; top: 0; z-index: 50; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
   .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
   .logo-area { display: flex; align-items: center; gap: 0.5rem; }
@@ -41,8 +45,11 @@ const styles = `
   .btn-small:hover { background-color: #e5e7eb; }
 
   /* Contenu principal */
-  .main-container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+  .main-container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; flex: 1; width: 100%; }
   .grid-layout { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+  
+  /* Footer du Site Web (visible écran, caché impression) */
+  .site-footer { background-color: #1e1b4b; color: #a5b4fc; padding: 1.5rem; text-align: center; margin-top: auto; border-top: 1px solid #312e81; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.025em; }
   
   /* Cartes et Formulaires */
   .card { background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1); border: 1px solid #e5e7eb; margin-bottom: 1.5rem; }
@@ -74,7 +81,7 @@ const styles = `
   .btn-delete:hover { color: #ef4444; }
 
   /* Aperçu (Feuille A4) */
-  .preview-container { display: flex; justify-content: center; }
+  .preview-container { display: flex; justify-content: center; padding-bottom: 2rem; }
   .a4-page { 
     background: white; 
     width: 21cm; 
@@ -108,20 +115,33 @@ const styles = `
   .main-table th { border: 1px solid black; background-color: #f3f4f6; padding: 0.5rem; text-align: left; }
   .main-table td { border: 1px solid black; padding: 0.5rem; vertical-align: top; }
 
+  /* Footer Copyright Styling (PDF) */
+  .pdf-copyright { 
+    margin-top: auto;
+    padding-top: 1rem; 
+    border-top: 1px solid #9ca3af;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: bold;
+    font-style: italic;
+  }
+
   .hidden { display: none; }
+  .no-print { }
   
   /* Responsive */
   @media (min-width: 1024px) {
     .grid-layout { grid-template-columns: 1fr 2fr; }
   }
 
-  /* Impression */
+  /* Impression (PDF) */
   @media print {
     body { background: white; }
-    .app-header, .btn-group, .hidden, .grid-layout > div:first-child { display: none !important; }
+    .app-header, .btn-group, .hidden, .grid-layout > div:first-child, .site-footer { display: none !important; }
     .main-container { padding: 0; margin: 0; max-width: none; }
     .grid-layout { display: block; }
-    .preview-container { display: block; }
+    .preview-container { display: block; padding: 0; }
     .a4-page { box-shadow: none; margin: 0; width: 100%; padding: 0; max-width: none; min-height: 29.7cm; }
     #print-area { display: block !important; }
   }
@@ -151,7 +171,7 @@ const STEP_TYPES = ['Motivation', 'Construction', 'Généralisation', 'Évaluati
 // --- Composants ---
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('edit'); // 'edit' or 'preview'
+  const [activeTab, setActiveTab] = useState('edit');
   const [showBloom, setShowBloom] = useState(false);
 
   // État de la fiche
@@ -174,7 +194,6 @@ export default function App() {
     deroulement: DEFAULT_STEPS
   });
 
-  // Gestion du Drag and Drop
   const [draggedItemIndex, setDraggedItemIndex] = useState(null);
 
   const handleDragStart = (e, index) => {
@@ -199,7 +218,6 @@ export default function App() {
     setDraggedItemIndex(null);
   };
 
-  // Actions
   const handleInputChange = (field, value) => {
     setFiche({ ...fiche, [field]: value });
   };
@@ -265,7 +283,7 @@ export default function App() {
     <div className="app-container">
       <style>{styles}</style>
       
-      {/* Header */}
+      {/* Header (Caché à l'impression) */}
       <header className="app-header no-print">
         <div className="header-inner">
           <div className="logo-area">
@@ -616,21 +634,24 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Footer */}
-              <div style={{marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid #9ca3af'}}>
-                <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#6b7280', marginBottom: '0.5rem'}}>
+              {/* Footer pour le PDF/Impression uniquement */}
+              <div className="pdf-copyright">
+                <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontWeight: 'normal'}}>
                   <span>Généré numériquement le {new Date().toLocaleDateString()}</span>
                   <span>Enseignant : {fiche.professeur}</span>
                 </div>
-                <div style={{textAlign: 'center', fontSize: '0.75rem', color: '#6b7280', fontWeight: 'bold', fontStyle: 'italic'}}>
-                  {PROTECTED_COPYRIGHT}
-                </div>
+                <div>{PDF_COPYRIGHT}</div>
               </div>
 
             </div>
           </div>
         </div>
       </main>
+
+      {/* Footer du Site Web (Caché à l'impression) */}
+      <footer className="site-footer no-print">
+        {WEBSITE_COPYRIGHT}
+      </footer>
     </div>
   );
 }
