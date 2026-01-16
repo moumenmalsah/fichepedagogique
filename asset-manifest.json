@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/fichepedagogique/static/css/main.e6c13ad2.css",
+    "main.js": "/fichepedagogique/static/js/main.2a21755c.js",
+    "static/js/453.f08340eb.chunk.js": "/fichepedagogique/static/js/453.f08340eb.chunk.js",
+    "index.html": "/fichepedagogique/index.html",
+    "main.e6c13ad2.css.map": "/fichepedagogique/static/css/main.e6c13ad2.css.map",
+    "main.2a21755c.js.map": "/fichepedagogique/static/js/main.2a21755c.js.map",
+    "453.f08340eb.chunk.js.map": "/fichepedagogique/static/js/453.f08340eb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.2a21755c.js"
+  ]
+}
