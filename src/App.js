@@ -16,7 +16,8 @@ import {
 
 // --- MENTIONS LÉGALES (Protégées) ---
 const PDF_COPYRIGHT = "DEV : Pr.M Moumen";
-const WEBSITE_COPYRIGHT = "Idea & Developed with ❤️ by Pr. M. MOUMEN";
+// Correction : "Idea & Development" est la formulation correcte pour "L'idée et le développement".
+const WEBSITE_COPYRIGHT = "Idea & Development with ❤️ by Pr. M. MOUMEN";
 
 // --- Styles CSS intégrés ---
 const styles = `
