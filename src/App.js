@@ -289,7 +289,7 @@ export default function App() {
         <div className="header-inner">
           <div className="logo-area">
             <BookOpen size={24} />
-            <h1 className="app-title">Fiche Pédagogique Creator </h1>
+            <h1 className="app-title">Fiche Pédagogique Creator  by Pr Malsah Moumen</h1>
           </div>
           <div className="btn-group">
              <button onClick={() => setActiveTab('edit')} className={`btn btn-nav ${activeTab === 'edit' ? 'active' : ''}`}>
